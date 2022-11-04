@@ -8,7 +8,6 @@ describe('integration: Create user', () => {
       password: 'valid_password'
     })
 
-    console.log(response.body)
     expect(response.statusCode).toBe(422)
 
     const error = response.body
