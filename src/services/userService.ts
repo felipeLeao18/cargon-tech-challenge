@@ -11,14 +11,19 @@ const create = async ({ name, email, password }: IUser): Promise<IUser> => {
     throw error.build({ statusCode: 412, message: 'Email already taken' })
   }
 
-  const user = await prismaClient.user.create({
-    data: {
-      name,
-      email,
-      password
-    }
-  })
+  // const user = await prismaClient.user.create({
+  //   data: {
+  //     name,
+  //     email,
+  //     password: hashPassword
+  //   }
+  // })
 
+  const user: IUser = {
+    name,
+    email,
+    password
+  }
   return user
 }
 export const userService = {
