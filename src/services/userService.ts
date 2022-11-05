@@ -10,6 +10,7 @@ const createUser = zod.object({
   email: zod.string().min(1, { message: 'email is required' }),
   password: zod.string().min(5, 'password must have at least 5 characters')
 })
+
 const create = async ({ name, email, password }: Omit<IUser, 'id'>): Promise<{ success: true }> => {
   createUser.parse({ name, email, password })
 
@@ -27,7 +28,6 @@ const create = async ({ name, email, password }: Omit<IUser, 'id'>): Promise<{ s
   }
 
   const hashPassword = crypt.createHash(password)
-
   const user = await prismaClient.user.create({
     data: {
       name,
@@ -42,6 +42,29 @@ const create = async ({ name, email, password }: Omit<IUser, 'id'>): Promise<{ s
 
   return { success: true }
 }
+
+const list = async ({ page = 1, perPage = 10, name = '' }): Promise<{ data: Array<Omit<IUser, 'password'>>, totalSize: Number } > => {
+  if (typeof page !== 'number' || typeof perPage !== 'number') {
+    page = 1
+    perPage = 10
+  }
+
+  const filter = name ? { name: { contains: name } } : {}
+  const users = await prismaClient.user.findMany({
+    skip: page > 0 ? (page - 1) * perPage : perPage,
+    take: perPage,
+    where: filter,
+    select: {
+      name: true,
+      email: true,
+      id: true
+    }
+  })
+  const totalSize = await prismaClient.user.count({ where: filter })
+  return { data: users, totalSize }
+}
+
 export const userService = {
-  create
+  create,
+  list
 }
