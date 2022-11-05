@@ -14,5 +14,7 @@ jobs:
       run: npm run tsc
     - name: Run ESLint
       run: npm run lint
+    - name: prepare tests setups 
+      run: npm run setup-test
     - name: Run tests 
       run: npm run test
