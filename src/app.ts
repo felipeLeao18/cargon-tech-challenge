@@ -16,6 +16,7 @@ app.use((err: any, _req: Request, res: Response, _next: NextFunction) => {
       status: 'error'
     })
   }
+
   if (err.errors) {
     const { errors } = err
     const errorMessages = errors.map((error: { code: string, expected: string, received: string, path: string[], message: string }) => {
@@ -29,6 +30,7 @@ app.use((err: any, _req: Request, res: Response, _next: NextFunction) => {
       status: 'invalidSchemaError'
     })
   }
+
   return res.status(500).json({
     status: 'error',
     message: 'Internal server error'
