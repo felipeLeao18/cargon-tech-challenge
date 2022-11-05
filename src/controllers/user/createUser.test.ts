@@ -1,7 +1,7 @@
 import { User } from '@prisma/client'
 import request from 'supertest'
-import { prismaMock } from '../../../lib/testDBMock'
 import { app } from '../../app'
+import prismaClient from '../../database/client'
 import { crypt } from '../../services/common/cryptService'
 import { validator } from '../../services/common/validator'
 
@@ -10,11 +10,16 @@ describe('integration: Create user', () => {
     jest.clearAllMocks()
     jest.restoreAllMocks()
   })
+
+  afterAll(async () => {
+    await prismaClient.$disconnect()
+    await prismaClient.user.deleteMany()
+  })
+
   it('should return 422 when name is not provided', async () => {
     const response = await request(app).post('/users').send({
       password: 'valid_password',
       email: 'valid_mail@mail.com'
-
     })
     expect(response.statusCode).toBe(422)
 
@@ -80,7 +85,7 @@ describe('integration: Create user', () => {
       updated_at: new Date()
     }
 
-    prismaMock.user.findFirst.mockResolvedValue(user)
+    jest.spyOn(prismaClient.user, 'findFirst').mockResolvedValue(user)
 
     const response = await request(app).post('/users').send({
       name: 'valid_name',
@@ -110,17 +115,11 @@ describe('integration: Create user', () => {
   })
   it('should return 200 and create user', async () => {
     const createUserSut = {
-      id: '1234',
       email: 'valid_email@mail.com',
       password: crypt.createHash('valid_password'),
       name: 'valid_name'
     }
-    prismaMock.user.create.mockResolvedValue(createUserSut as User)
-    const response = await request(app).post('/users').send({
-      name: 'valid_name',
-      password: 'valid_password',
-      email: 'validemail@mail.com'
-    })
+    const response = await request(app).post('/users').send(createUserSut)
 
     expect(response.statusCode).toBe(201)
 
