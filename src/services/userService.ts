@@ -18,13 +18,13 @@ const create = async ({ name, email, password }: Omit<IUser, 'id' | 'created_at'
     throw error.build({ statusCode: 422, message: 'Email not provided' })
   }
 
-  if (await prismaClient.user.findFirst({ where: { email } })) {
-    throw error.build({ statusCode: 412, message: 'Email already taken' })
-  }
-
   const validEmail: boolean = validator.validateEmail(email)
   if (!validEmail) {
     throw error.build({ statusCode: 422, message: 'Invalid email provided' })
+  }
+
+  if (await prismaClient.user.findFirst({ where: { email } })) {
+    throw error.build({ statusCode: 412, message: 'Email already taken' })
   }
 
   const hashPassword = crypt.createHash(password)
