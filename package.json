@@ -9,7 +9,7 @@
     "setup-test": "npm run docker:up && npm run migrate:postgres",
     "prepare": "husky install",
     "dev": "ts-node-dev src/server",
-    "test": "dotenv -e .env.test jest --passWithNoTests",
+    "test": "dotenv -e .env.test jest",
     "migrate:postgres": "dotenv -e .env.test -- npx prisma migrate dev --name postgres-init",
     "test:verbose": "jest --verbose",
     "lint": "eslint .",
