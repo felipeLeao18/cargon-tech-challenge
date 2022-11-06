@@ -12,8 +12,8 @@ describe('integration: Create user', () => {
   })
 
   afterAll(async () => {
-    await prismaClient.$disconnect()
     await prismaClient.user.deleteMany()
+    await prismaClient.$disconnect()
   })
 
   it('should return 422 when name is not provided', async () => {

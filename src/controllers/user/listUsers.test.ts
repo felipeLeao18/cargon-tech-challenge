@@ -15,6 +15,7 @@ describe('integration: list users', () => {
     await prismaClient.user.deleteMany()
     await prismaClient.$disconnect()
   })
+
   it('should return 200 and list users', async () => {
     const TOTAL_DOCS = 12
     for (let index = 0; index < TOTAL_DOCS; index++) {
