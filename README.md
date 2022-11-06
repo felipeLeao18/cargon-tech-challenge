@@ -34,7 +34,9 @@
    
   - note: The command above will already create your migrations on your memory server db
  
- **After stop running tests, drop the container containing the memory server Db**
+⚠️ **ALERT**
+
+**After stop running tests, drop the container containing the memory server Db**
  
     $ npm run docker:down
     
