@@ -64,4 +64,4 @@ After terminating the tests, drop the container containing the memory server Db
 
 [run](#how-to-run) your app
 
-Navigate to http://localhost:port/docs-api
+Navigate to http://localhost:port/api-docs
