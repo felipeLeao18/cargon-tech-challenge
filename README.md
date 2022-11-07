@@ -40,7 +40,7 @@ Run the app
 
 Start a local database memory server with [Docker Compose](https://docs.docker.com/compose/)
 
-    $ npm run test-setup
+    $ npm run setup-test
 
 
   - note: The command above will already create your migrations on your memory server db
