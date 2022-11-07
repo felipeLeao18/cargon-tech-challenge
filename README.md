@@ -42,11 +42,17 @@ Start a local database memory server with [Docker Compose](https://docs.docker.c
 
     $ npm run test-setup
 
-   
 
   - note: The command above will already create your migrations on your memory server db
 
- 
+  
+   **To run all test files**
+
+    $ npm run test
+  
+   **To run a specific test file**
+
+    $ npm run test /filepath/
 
 ⚠️ ALERT
 
