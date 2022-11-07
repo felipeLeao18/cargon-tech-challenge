@@ -125,5 +125,16 @@ describe('integration: Create user', () => {
 
     const { success } = response.body
     expect(success).toBe(true)
+
+    const user = await prismaClient.user.findFirst({ where: { email: createUserSut.email } })
+
+    expect(user).not.toBeNull()
+    expect(user?.id).toBeDefined()
+    expect(user?.created_at).toBeDefined()
+    expect(user?.updated_at).toBeDefined()
+    expect(user?.password).toBeDefined()
+
+    expect(user?.email).toBe(createUserSut.email)
+    expect(user?.password).not.toBe(createUserSut.password)
   })
 })
